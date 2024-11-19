@@ -1,1 +1,18 @@
 .vscode
+
+# 빌드 디렉토리 무시
+/build/
+
+# CMake 생성 파일 무시
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# 임시 파일 무시
+*.o
+*.obj
+*.so
+*.exe
+*.dll
+*.dylib

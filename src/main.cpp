@@ -4,9 +4,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <iomanip>
 #include <iostream>
 
 void packet_handler(u_char *user_data, const struct pcap_pkthdr *pkthdr,
@@ -38,10 +36,9 @@ int main() {
       std::cout << " (No description available)" << std::endl;
   }
 
-  // 첫 번째 디바이스 사용
   if (alldevs == NULL) {
     std::cerr << "No devices found" << std::endl;
-    return 1;
+    exit(EXIT_FAILURE);
   }
 
   std::cout << "Enter the interface number (1-" << index << "):";
@@ -50,7 +47,7 @@ int main() {
   if (select_number < 1 || select_number > index) {
     std::cout << "\nInterface number out of range\n";
     pcap_freealldevs(alldevs);
-    return -1;
+    exit(EXIT_FAILURE);
   }
 
   /* Jump to the selected adapter */
@@ -63,7 +60,7 @@ int main() {
     std::cerr << "Could not open device " << d->name << ": " << errbuf
               << std::endl;
     pcap_freealldevs(alldevs);
-    return 1;
+    exit(EXIT_FAILURE);
   }
 
   // 패킷 캡처 시작
@@ -72,5 +69,5 @@ int main() {
 
   pcap_freealldevs(alldevs);
   pcap_close(handle);
-  return 0;
+  exit(EXIT_SUCCESS);
 }

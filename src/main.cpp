@@ -22,6 +22,18 @@ void packet_handler(u_char *user_data, const struct pcap_pkthdr *pkthdr,
   if (p_ether->type != ntohs(0x0800)) return;
   IpHeader *p_ip_header = (IpHeader *)(packet + sizeof(EtherHeader));
   PrintIpHeader(p_ip_header);
+
+  // total length
+  uint16_t total_length = ntohs(p_ip_header->length);
+  std::cout << "IP Total Length: " << total_length << " bytes\n";
+
+  // TCP header
+  if (p_ether->type != 0x0008) return;
+  if (p_ip_header->protocol != 6) return;
+  int ip_header_length = (p_ip_header->ver_ihl & 0x0F) * 4;
+  TcpHeader *p_tcp_header =
+      (TcpHeader *)(packet + sizeof(EtherHeader) + ip_header_length);
+  PrintTcpHeader(p_tcp_header);
 }
 
 int main() {

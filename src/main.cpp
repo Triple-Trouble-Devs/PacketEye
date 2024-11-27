@@ -7,10 +7,16 @@
 #include <iomanip>
 #include <iostream>
 
+#include "ether_header.h"
+#include "ip_header.h"
+#include "tcp_header.h"
+
 void packet_handler(u_char *user_data, const struct pcap_pkthdr *pkthdr,
                     const u_char *packet) {
   std::cout << "Packet capture length: " << pkthdr->caplen << std::endl;
-  std::cout << "Packet total length: " << pkthdr->len << std::endl;
+  // Ether header
+  EtherHeader *p_ether = (EtherHeader *)packet;
+  PrintMacAddress(p_ether);
 }
 
 int main() {

@@ -17,6 +17,11 @@ void packet_handler(u_char *user_data, const struct pcap_pkthdr *pkthdr,
   // Ether header
   EtherHeader *p_ether = (EtherHeader *)packet;
   PrintMacAddress(p_ether);
+
+  // Ip header
+  if (p_ether->type != ntohs(0x0800)) return;
+  IpHeader *p_ip_header = (IpHeader *)(packet + sizeof(EtherHeader));
+  PrintIpHeader(p_ip_header);
 }
 
 int main() {

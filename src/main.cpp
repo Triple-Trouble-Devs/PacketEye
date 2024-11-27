@@ -34,6 +34,24 @@ void packet_handler(u_char *user_data, const struct pcap_pkthdr *pkthdr,
   TcpHeader *p_tcp_header =
       (TcpHeader *)(packet + sizeof(EtherHeader) + ip_header_length);
   PrintTcpHeader(p_tcp_header);
+
+  // payload
+  int tcp_header_length = ((p_tcp_header->data_offset) >> 4 & 0x0F * 4);
+  uint8_t *p_payload = (uint8_t *)(packet + sizeof(EtherHeader) +
+                                   ip_header_length + tcp_header_length);
+  int payload_length = total_length - tcp_header_length;
+  if (tcp_header_length != total_length) {
+    std::cout << "Payload Length: " << payload_length << " bytes\n";
+    std::cout << "Payload Data:\n";
+    for (int i = 0; i < payload_length; ++i) {
+      std::cout << std::hex << std::setw(2) << std::setfill('0')
+                << static_cast<int>(p_payload[i]) << " ";
+      if ((i + 1) % 16 == 0) std::cout << "\n";  // 16바이트 단위 줄바꿈
+    }
+    std::cout << std::dec << std::endl;  // 10진수로 복원
+  } else {
+    std::cout << "No Payload Data\n";
+  }
 }
 
 int main() {

@@ -28,7 +28,8 @@ file(GLOB_RECURSE PE_HEADERS
 add_executable(main ${PE_SOURCES} ${PE_HEADERS})
 
 # Include 디렉토리 추가 (libpcap 헤더 파일 경로)
-include_directories(${PE_INCLUDE_DIR} /opt/homebrew/opt/libpcap/include)
+target_include_directories(main PRIVATE ${PE_INCLUDE_DIR} ${PE_SOURCE_DIR} /opt/homebrew/opt/libpcap/include)
+
 
 # 라이브러리 링크 (libpcap 라이브러리)
 target_link_libraries(main /opt/homebrew/opt/libpcap/lib/libpcap.dylib)

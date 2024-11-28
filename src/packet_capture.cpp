@@ -54,7 +54,7 @@ void packet_handler(u_char *user_data, const struct pcap_pkthdr *pkthdr,
   }
 }
 
-int main() {
+int packet_capture_setup() {
   char errbuf[PCAP_ERRBUF_SIZE];
   pcap_if_t *alldevs;
   pcap_if_t *d;

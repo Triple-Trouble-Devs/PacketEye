@@ -1,4 +1,5 @@
 .vscode
+cspell.json
 
 # 빌드 디렉토리 무시
 /build/
